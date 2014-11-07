@@ -8,6 +8,7 @@
  * This version uses a nested if to handle default responses.
  */ 
 public class Magpienew
+  
 {
   /**
    * Get a default greeting  
