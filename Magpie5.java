@@ -33,11 +33,10 @@ public class Magpie5
     {
       int psn = findKeyword ( statement, "am", 0);//psn is "am"
       String restOfStatement = statement.substring(psn + 3).trim();//String restOfStatement is everything after "am"
-      response = "Why are you " + restOfStatement + "?";//Asks "why are you" because if the user uses "am", he is talking about himself/herself
+      response = "Why are you " + restOfStatement + "?";//Asks "why are you" because if the user uses "am", he is describing himself/herself
       // "Why are you (description of person's self)?"
     }
-    
-    
+      
     else if (findKeyword (statement, "are", 0) >= 0) // Testing for "are" rule
     {
       int psn = findKeyword ( statement, "are", 0);//psn is "are"
@@ -51,20 +50,36 @@ public class Magpie5
       int psn = findKeyword ( statement, "will", 0);//psn is "will"
       String restOfStatement = statement.substring(psn + 5).trim(); // String restOfStatement is everything after "will"
       String begginingOfStatement = statement.substring(0, psn);// String begginingOfStatement is everything before "will" asks "why will" "begginingOfStatement" "restOfStatement" 
-      if (begginingOfStatement == ("i ")) 
+      if (begginingOfStatement.equals("I ")) 
       {
-        statement.replace("i ", "you ");
+        begginingOfStatement = begginingOfStatement.replace("I ", "you ");// Did this to replace "I" with "you" in case the user says "I will" instead of a "group of people" will, in which the computer would usually expect to respond to
       }
       response = "Why will " + begginingOfStatement + restOfStatement + "?";
       // if the user uses "will", he could be talking about either himself or someone else, which is why I use the begginingOfStatement string.
       //Therefore I make it ask "Why will (person or people) (action)?
     }
+       
+        else if (findKeyword (statement, "I", 0) >= 0) // Testing for "I" rule
+        {
+          int psn = findKeyword (statement, "I", 0);//psn is "I"
+          String restOfStatement = statement.substring(psn + 2).trim();
+          String pastResponse = "Why did you ";//String restOfStatement is everything after "I"
+          if (findKeyword (statement, "ed ", 0) >=0);//Looked for "ed " instead of "ed" because if it was just "ed", it would be inside of a word.
+          //Did this to address if the user types in a past tense verb. (certain verbs)
+          {
+            response = pastResponse + restOfStatement + "?";
+          }
+          {
+        response = "Why do you " + restOfStatement + "?";
+      }//Asks "why do you" because if the user uses "I", he is talking about an action or description of himself/herself
+      // "Why do you (action/description described by person)?"
+    }
     
     else if (findKeyword(statement,"no") >= 0)
     {
-      response = "Why so negative?";
+      response = "Why so negative?";//If user says "no" to wanting to talk
     }
-    else if (findKeyword(statement,"mother") >= 0
+    else if (findKeyword(statement,"mother") >= 0//Addressing the response if the user types in "mother", "father", "sister", or "brother"
                || findKeyword(statement,"father") >= 0
                || findKeyword(statement,"sister") >= 0
                || findKeyword(statement,"brother") >= 0)
@@ -72,22 +87,22 @@ public class Magpie5
       response = "Tell me more about your family.";
     }
     
-    else if (findKeyword(statement,"superman") >= 0)
+    else if (findKeyword(statement,"superman") >= 0)//If the user mentions "superman"
     {
       response = "Batman could kick his ass.";
     }
     
-    else if (findKeyword(statement,"ebola") >= 0)
+    else if (findKeyword(statement,"ebola") >= 0)//If the user mentions "ebola"
     {
       response = "Ebola scares me.";
     }
     
-    else if (findKeyword(statement,"minecraft") >= 0)
+    else if (findKeyword(statement,"minecraft") >= 0)//If the user mentions "minecraft"
     {
       response = "I love that game.";
     }
     
-    else if (findKeyword(statement,"dog") >= 0
+    else if (findKeyword(statement,"dog") >= 0 //Respose if the user mentions "dog", "cat", "fish", "bird"
                || findKeyword(statement,"cat") >= 0
                || findKeyword(statement,"fish") >= 0
                || findKeyword(statement,"bird") >= 0)
@@ -97,16 +112,16 @@ public class Magpie5
     
     else if (findKeyword(statement, "want", 0) >= 0)  
     {
-      response = transformIWantStatement(statement);
+      response = transformIWantStatement(statement);//For if the user types an "I want" statement
     }
     
-    else if (findKeyword(statement, "You") >= 0 
+    else if (findKeyword(statement, "You") >= 0 //For if the user types in an "I (description) you" statement
                && findKeyword(statement, "I") >=0)  
     {
       response = transformYouMeStatement(statement);
     }
     
-    else if (statement.indexOf("landgraf") >= 0
+    else if (statement.indexOf("landgraf") >= 0//For if the user mentions Mr. Kiang or Mr. Landgraf
                || statement.indexOf("kiang") >= 0)
     {
       response = "He sounds like an awesome dude.";
